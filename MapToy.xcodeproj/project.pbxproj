@@ -11,6 +11,9 @@
 		D86FDE4429047556006522C1 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86FDE4329047556006522C1 /* ContentView.swift */; };
 		D86FDE462904755A006522C1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D86FDE452904755A006522C1 /* Assets.xcassets */; };
 		D86FDE492904755A006522C1 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D86FDE482904755A006522C1 /* Preview Assets.xcassets */; };
+		D86FDE5229047696006522C1 /* SwiftProtobuf in Frameworks */ = {isa = PBXBuildFile; productRef = D86FDE5129047696006522C1 /* SwiftProtobuf */; };
+		D86FDE54290476F8006522C1 /* vector_tile.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86FDE53290476F8006522C1 /* vector_tile.pb.swift */; };
+		D86FDE5629047769006522C1 /* MVTCommandParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86FDE5529047769006522C1 /* MVTCommandParser.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +23,8 @@
 		D86FDE452904755A006522C1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D86FDE482904755A006522C1 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		D86FDE4A2904755A006522C1 /* MapToy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MapToy.entitlements; sourceTree = "<group>"; };
+		D86FDE53290476F8006522C1 /* vector_tile.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = vector_tile.pb.swift; sourceTree = "<group>"; };
+		D86FDE5529047769006522C1 /* MVTCommandParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MVTCommandParser.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -27,6 +32,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D86FDE5229047696006522C1 /* SwiftProtobuf in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -52,11 +58,13 @@
 		D86FDE4029047556006522C1 /* MapToy */ = {
 			isa = PBXGroup;
 			children = (
+				D86FDE53290476F8006522C1 /* vector_tile.pb.swift */,
 				D86FDE4129047556006522C1 /* MapToyApp.swift */,
 				D86FDE4329047556006522C1 /* ContentView.swift */,
 				D86FDE452904755A006522C1 /* Assets.xcassets */,
 				D86FDE4A2904755A006522C1 /* MapToy.entitlements */,
 				D86FDE472904755A006522C1 /* Preview Content */,
+				D86FDE5529047769006522C1 /* MVTCommandParser.swift */,
 			);
 			path = MapToy;
 			sourceTree = "<group>";
@@ -85,6 +93,9 @@
 			dependencies = (
 			);
 			name = MapToy;
+			packageProductDependencies = (
+				D86FDE5129047696006522C1 /* SwiftProtobuf */,
+			);
 			productName = MapToy;
 			productReference = D86FDE3E29047556006522C1 /* MapToy.app */;
 			productType = "com.apple.product-type.application";
@@ -113,6 +124,9 @@
 				Base,
 			);
 			mainGroup = D86FDE3529047556006522C1;
+			packageReferences = (
+				D86FDE5029047696006522C1 /* XCRemoteSwiftPackageReference "swift-protobuf" */,
+			);
 			productRefGroup = D86FDE3F29047556006522C1 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -139,8 +153,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D86FDE5629047769006522C1 /* MVTCommandParser.swift in Sources */,
 				D86FDE4429047556006522C1 /* ContentView.swift in Sources */,
 				D86FDE4229047556006522C1 /* MapToyApp.swift in Sources */,
+				D86FDE54290476F8006522C1 /* vector_tile.pb.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -336,6 +352,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		D86FDE5029047696006522C1 /* XCRemoteSwiftPackageReference "swift-protobuf" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-protobuf.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		D86FDE5129047696006522C1 /* SwiftProtobuf */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D86FDE5029047696006522C1 /* XCRemoteSwiftPackageReference "swift-protobuf" */;
+			productName = SwiftProtobuf;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = D86FDE3629047556006522C1 /* Project object */;
 }
