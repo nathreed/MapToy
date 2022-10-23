@@ -13,8 +13,9 @@
 		D86FDE492904755A006522C1 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D86FDE482904755A006522C1 /* Preview Assets.xcassets */; };
 		D86FDE5229047696006522C1 /* SwiftProtobuf in Frameworks */ = {isa = PBXBuildFile; productRef = D86FDE5129047696006522C1 /* SwiftProtobuf */; };
 		D86FDE54290476F8006522C1 /* vector_tile.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86FDE53290476F8006522C1 /* vector_tile.pb.swift */; };
-		D86FDE5629047769006522C1 /* MVTCommandParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86FDE5529047769006522C1 /* MVTCommandParser.swift */; };
+		D86FDE5629047769006522C1 /* MVTParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86FDE5529047769006522C1 /* MVTParser.swift */; };
 		D86FDE58290487A0006522C1 /* MapScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86FDE57290487A0006522C1 /* MapScene.swift */; };
+		D86FDE5B29057C30006522C1 /* SQLite in Frameworks */ = {isa = PBXBuildFile; productRef = D86FDE5A29057C30006522C1 /* SQLite */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,7 +26,7 @@
 		D86FDE482904755A006522C1 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		D86FDE4A2904755A006522C1 /* MapToy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MapToy.entitlements; sourceTree = "<group>"; };
 		D86FDE53290476F8006522C1 /* vector_tile.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = vector_tile.pb.swift; sourceTree = "<group>"; };
-		D86FDE5529047769006522C1 /* MVTCommandParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MVTCommandParser.swift; sourceTree = "<group>"; };
+		D86FDE5529047769006522C1 /* MVTParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MVTParser.swift; sourceTree = "<group>"; };
 		D86FDE57290487A0006522C1 /* MapScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapScene.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -34,6 +35,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D86FDE5B29057C30006522C1 /* SQLite in Frameworks */,
 				D86FDE5229047696006522C1 /* SwiftProtobuf in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -66,7 +68,7 @@
 				D86FDE452904755A006522C1 /* Assets.xcassets */,
 				D86FDE4A2904755A006522C1 /* MapToy.entitlements */,
 				D86FDE472904755A006522C1 /* Preview Content */,
-				D86FDE5529047769006522C1 /* MVTCommandParser.swift */,
+				D86FDE5529047769006522C1 /* MVTParser.swift */,
 				D86FDE57290487A0006522C1 /* MapScene.swift */,
 			);
 			path = MapToy;
@@ -98,6 +100,7 @@
 			name = MapToy;
 			packageProductDependencies = (
 				D86FDE5129047696006522C1 /* SwiftProtobuf */,
+				D86FDE5A29057C30006522C1 /* SQLite */,
 			);
 			productName = MapToy;
 			productReference = D86FDE3E29047556006522C1 /* MapToy.app */;
@@ -129,6 +132,7 @@
 			mainGroup = D86FDE3529047556006522C1;
 			packageReferences = (
 				D86FDE5029047696006522C1 /* XCRemoteSwiftPackageReference "swift-protobuf" */,
+				D86FDE5929057C30006522C1 /* XCRemoteSwiftPackageReference "SQLite" */,
 			);
 			productRefGroup = D86FDE3F29047556006522C1 /* Products */;
 			projectDirPath = "";
@@ -157,7 +161,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D86FDE58290487A0006522C1 /* MapScene.swift in Sources */,
-				D86FDE5629047769006522C1 /* MVTCommandParser.swift in Sources */,
+				D86FDE5629047769006522C1 /* MVTParser.swift in Sources */,
 				D86FDE4429047556006522C1 /* ContentView.swift in Sources */,
 				D86FDE4229047556006522C1 /* MapToyApp.swift in Sources */,
 				D86FDE54290476F8006522C1 /* vector_tile.pb.swift in Sources */,
@@ -366,6 +370,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		D86FDE5929057C30006522C1 /* XCRemoteSwiftPackageReference "SQLite" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/stephencelis/SQLite.swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.9.2;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -373,6 +385,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = D86FDE5029047696006522C1 /* XCRemoteSwiftPackageReference "swift-protobuf" */;
 			productName = SwiftProtobuf;
+		};
+		D86FDE5A29057C30006522C1 /* SQLite */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D86FDE5929057C30006522C1 /* XCRemoteSwiftPackageReference "SQLite" */;
+			productName = SQLite;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

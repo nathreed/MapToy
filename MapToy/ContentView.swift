@@ -16,7 +16,7 @@ final class ContentViewModel: ObservableObject {
             fileName = fileURL?.lastPathComponent
             guard let fileURL = fileURL else { return }
             Task {
-                let parser = MVTCommandParser()
+                let parser = MVTParser()
                 DispatchQueue.main.async {
                     self.layers = parser.load(path: fileURL.path)
                 }

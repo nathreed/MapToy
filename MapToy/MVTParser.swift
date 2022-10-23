@@ -1,5 +1,5 @@
 //
-//  MVTCommandParser.swift
+//  MVTParser.swift
 //  MapToy
 //
 //  Created by Nathan Reed on 10/22/22.
@@ -38,6 +38,8 @@ struct MVTFeature {
         self.attributes = attributes
     }
     
+    /// Lazily-parsed array of drawing commands
+    /// They are not parsed until this variable is accessed
     var drawingCommands: [DrawingCommand] {
         return parseDrawingCommands()
     }
@@ -113,9 +115,9 @@ struct MVTLayer {
     let features: [MVTFeature]
 }
 
-/// `MVTCommandParser` implements the Mapbox Vector Tiles specification v2.1
+/// `MVTParser` implements the Mapbox Vector Tiles specification v2.1
 /// It parses Protobuf-format tile data into a format that can be read by other parts of the application.
-final class MVTCommandParser {
+final class MVTParser {
     
     /// Load a tile from protobuf-encoded data at the given path
     /// Returns an array of `MVTLayer`, each of which will contain `MVTFeature` with fully-decoded drawing instructions
