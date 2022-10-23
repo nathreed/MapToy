@@ -124,7 +124,8 @@ final class MVTCommandParser {
         
         // Hardcoded filter on layers we are selecting to make it easier to deal with for now
         // Will be removed later
-        let toReturn = decodedTile.layers.filter({ $0.name == "transportation"})
+        let allowedLayers = ["transportation", "water"]
+        let toReturn = decodedTile.layers.filter({ allowedLayers.contains($0.name)})
         
         return toReturn.map { rawLayer in
             return MVTLayer(name: rawLayer.name, features: rawLayer.features.map({ rawFeature in

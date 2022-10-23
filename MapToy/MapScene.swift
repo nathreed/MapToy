@@ -20,24 +20,13 @@ final class MapScene: SKScene {
                 switch feature.featureType {
                 case .lineString:
                     handleLineStringFeature(commands: commands)
+                case .polygon:
+                    handlePolygonFeature(commands: commands)
                 default:
-                    break
+                    print("\(feature.featureType) features are UNSUPPORTED! skipping")
                 }
             }
         }
-    }
-    
-    private func spriteKitCoord(mvtCoordX: Int, mvtCoordY: Int) -> CGPoint {
-        // The MVT coord system starts at the top left with 0,0 and ends at the bottom right with 4096, 4096
-        // For an MVT coord, figure out its % of 4096 and apply that to our size to start
-        let xRatio = Double(mvtCoordX) / 4096.0
-        let yRatio = Double(mvtCoordY) / 4096.0
-        
-        
-        let spriteX = (xRatio) * self.size.width
-        let spriteY = self.size.height - ((yRatio) * self.size.height)
-        
-        return CGPoint(x: spriteX, y: spriteY)
     }
     
     private func handleLineStringFeature(commands: [MVTFeature.DrawingCommand]) {
@@ -79,12 +68,105 @@ final class MapScene: SKScene {
                 break
             }
         }
+        if let linePath = currentLinePath {
+            addLine(path: linePath)
+        }
+    }
+    
+    private func handlePolygonFeature(commands: [MVTFeature.DrawingCommand]) {
+        // Command sequence will be an exterior ring and 0 or more interior rings
+        // For now interior rings are unsupported
+        var cursorX = 0
+        var cursorY = 0
+        var currentExteriorRingPath: CGMutablePath?
+        for command in commands {
+            switch command {
+            case .moveTo(let dX, let dY):
+                if currentExteriorRingPath == nil {
+                    currentExteriorRingPath = CGMutablePath()
+                    currentExteriorRingPath!.move(to: spriteKitCoord(mvtCoordX: cursorX + dX, mvtCoordY: cursorY + dY))
+                    cursorX += dX
+                    cursorY += dY
+                } else {
+                    print("ERROR: polygon feature has internal ring")
+                    currentExteriorRingPath!.closeSubpath()
+                    addPolygon(path: currentExteriorRingPath!)
+                    return // this is an indicator of an interior ring which is not supported
+                }
+            case .lineTo(let dX, let dY):
+                if currentExteriorRingPath == nil {
+                    // This is incorrect but we should do something anyway
+                    currentExteriorRingPath = CGMutablePath()
+                    currentExteriorRingPath!.move(to: spriteKitCoord(mvtCoordX: cursorX, mvtCoordY: cursorY))
+                }
+                currentExteriorRingPath!.addLine(to: spriteKitCoord(mvtCoordX: cursorX + dX, mvtCoordY: cursorY + dY))
+                
+                // update cursor
+                cursorX += dX
+                cursorY += dY
+            case .closePath:
+                guard currentExteriorRingPath != nil else { return }
+                currentExteriorRingPath!.closeSubpath()
+                addPolygon(path: currentExteriorRingPath!)
+                return // as soon as we see one closePath we are done with this feature
+                // this completely ignores any interior rings, which are more complex and will be handled later
+            }
+        }
+    }
+    
+    /// Calculate the area of the polygon ring described by the vertices, which are given in MVT tile coordinate space
+    /// This uses the "surveyor's formula" linked from the spec (https://en.wikipedia.org/wiki/Shoelace_formula)
+    private func surveyorsFormulaArea(mvtCoordVertices: [(Int, Int)]) -> Double {
+        
+        // because of the way wikipedia defines the formula where vertex 0 = vertex n, we need a special subscript to make the loop code not ugly
+        // also this lets us iterate from 1 to n to more closely match the "mathy" formula on wikipedia
+        func xSub(_ i: Int) -> Int {
+            if i == 0 {
+                return mvtCoordVertices[mvtCoordVertices.count - 1].0
+            } else {
+                return mvtCoordVertices[i-1].0
+            }
+        }
+        
+        // adjusts the index to enable 1 to n iteration instead of 0 to n-1
+        func ySub(_ i: Int) -> Int {
+            return mvtCoordVertices[i-1].1
+        }
+        
+        var accumulatedArea = 0
+        for i in 1...mvtCoordVertices.count {
+            accumulatedArea += ySub(i) * (xSub(i-1) - xSub(i+1))
+        }
+        
+        return 0.5 * Double(accumulatedArea)
+    }
+    
+    private func spriteKitCoord(mvtCoordX: Int, mvtCoordY: Int) -> CGPoint {
+        // The MVT coord system starts at the top left with 0,0 and ends at the bottom right with 4096, 4096
+        // For an MVT coord, figure out its % of 4096 and apply that to our size to start
+        let xRatio = Double(mvtCoordX) / 4096.0
+        let yRatio = Double(mvtCoordY) / 4096.0
+        
+        
+        let spriteX = (xRatio) * self.size.width
+        let spriteY = self.size.height - ((yRatio) * self.size.height)
+        
+        return CGPoint(x: spriteX, y: spriteY)
     }
     
     private func addLine(path: CGPath) {
         let shape = SKShapeNode(path: path)
         shape.strokeColor = .red
         shape.lineWidth = 0.2
+        shape.lineJoin = .round
+        
+        addChild(shape)
+    }
+    
+    private func addPolygon(path: CGPath) {
+        let shape = SKShapeNode(path: path)
+        shape.strokeColor = .blue
+        shape.fillColor = .blue
         
         addChild(shape)
     }
