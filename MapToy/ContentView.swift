@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SpriteKit
 
 final class ContentViewModel: ObservableObject {
     
@@ -16,10 +17,13 @@ final class ContentViewModel: ObservableObject {
             guard let fileURL = fileURL else { return }
             Task {
                 let parser = MVTCommandParser()
-                parser.load(path: fileURL.path)
+                DispatchQueue.main.async {
+                    self.layers = parser.load(path: fileURL.path)
+                }
             }
         }
     }
+    @Published var layers: [MVTLayer]?
 }
 
 struct ContentView: View {
@@ -27,16 +31,26 @@ struct ContentView: View {
     @StateObject var viewModel = ContentViewModel()
     
     var body: some View {
-        HStack {
-            Text(viewModel.fileName ?? "No file selected")
-            Button("Choose File") {
-                let panel = NSOpenPanel()
-                panel.allowsMultipleSelection = false
-                panel.canChooseDirectories = false
-                if panel.runModal() == .OK {
-                    self.viewModel.fileURL = panel.url
+        VStack {
+            HStack {
+                Text(viewModel.fileName ?? "No file selected")
+                Button("Choose File") {
+                    let panel = NSOpenPanel()
+                    panel.allowsMultipleSelection = false
+                    panel.canChooseDirectories = false
+                    if panel.runModal() == .OK {
+                        self.viewModel.fileURL = panel.url
+                    }
                 }
             }
+            .padding()
+            
+            if let layers = viewModel.layers {
+                SpriteView(scene: MapScene(size: CGSize(width: 200, height: 200), layers: layers))
+            } else {
+                Text("No layers to display")
+            }
+            
         }
         .frame(minWidth: 300, maxWidth: .infinity, minHeight: 300, maxHeight: .infinity)
     }

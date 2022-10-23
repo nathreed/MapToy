@@ -14,6 +14,7 @@
 		D86FDE5229047696006522C1 /* SwiftProtobuf in Frameworks */ = {isa = PBXBuildFile; productRef = D86FDE5129047696006522C1 /* SwiftProtobuf */; };
 		D86FDE54290476F8006522C1 /* vector_tile.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86FDE53290476F8006522C1 /* vector_tile.pb.swift */; };
 		D86FDE5629047769006522C1 /* MVTCommandParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86FDE5529047769006522C1 /* MVTCommandParser.swift */; };
+		D86FDE58290487A0006522C1 /* MapScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86FDE57290487A0006522C1 /* MapScene.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +26,7 @@
 		D86FDE4A2904755A006522C1 /* MapToy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MapToy.entitlements; sourceTree = "<group>"; };
 		D86FDE53290476F8006522C1 /* vector_tile.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = vector_tile.pb.swift; sourceTree = "<group>"; };
 		D86FDE5529047769006522C1 /* MVTCommandParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MVTCommandParser.swift; sourceTree = "<group>"; };
+		D86FDE57290487A0006522C1 /* MapScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapScene.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +67,7 @@
 				D86FDE4A2904755A006522C1 /* MapToy.entitlements */,
 				D86FDE472904755A006522C1 /* Preview Content */,
 				D86FDE5529047769006522C1 /* MVTCommandParser.swift */,
+				D86FDE57290487A0006522C1 /* MapScene.swift */,
 			);
 			path = MapToy;
 			sourceTree = "<group>";
@@ -153,6 +156,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D86FDE58290487A0006522C1 /* MapScene.swift in Sources */,
 				D86FDE5629047769006522C1 /* MVTCommandParser.swift in Sources */,
 				D86FDE4429047556006522C1 /* ContentView.swift in Sources */,
 				D86FDE4229047556006522C1 /* MapToyApp.swift in Sources */,
