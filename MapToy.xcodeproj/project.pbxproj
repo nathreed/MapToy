@@ -18,6 +18,8 @@
 		D86FDE5B29057C30006522C1 /* SQLite in Frameworks */ = {isa = PBXBuildFile; productRef = D86FDE5A29057C30006522C1 /* SQLite */; };
 		D86FDE5D29057DD8006522C1 /* MBTilesLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86FDE5C29057DD8006522C1 /* MBTilesLoader.swift */; };
 		D86FDE60290582F1006522C1 /* FileChooserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86FDE5F290582F1006522C1 /* FileChooserView.swift */; };
+		D86FDE62290583A6006522C1 /* MBTilesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86FDE61290583A6006522C1 /* MBTilesView.swift */; };
+		D86FDE65290584C0006522C1 /* Gzip in Frameworks */ = {isa = PBXBuildFile; productRef = D86FDE64290584C0006522C1 /* Gzip */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +34,7 @@
 		D86FDE57290487A0006522C1 /* MapScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapScene.swift; sourceTree = "<group>"; };
 		D86FDE5C29057DD8006522C1 /* MBTilesLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MBTilesLoader.swift; sourceTree = "<group>"; };
 		D86FDE5F290582F1006522C1 /* FileChooserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileChooserView.swift; sourceTree = "<group>"; };
+		D86FDE61290583A6006522C1 /* MBTilesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MBTilesView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,6 +44,7 @@
 			files = (
 				D86FDE5B29057C30006522C1 /* SQLite in Frameworks */,
 				D86FDE5229047696006522C1 /* SwiftProtobuf in Frameworks */,
+				D86FDE65290584C0006522C1 /* Gzip in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -92,6 +96,7 @@
 			children = (
 				D86FDE4329047556006522C1 /* SingleMVTView.swift */,
 				D86FDE5F290582F1006522C1 /* FileChooserView.swift */,
+				D86FDE61290583A6006522C1 /* MBTilesView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -115,6 +120,7 @@
 			packageProductDependencies = (
 				D86FDE5129047696006522C1 /* SwiftProtobuf */,
 				D86FDE5A29057C30006522C1 /* SQLite */,
+				D86FDE64290584C0006522C1 /* Gzip */,
 			);
 			productName = MapToy;
 			productReference = D86FDE3E29047556006522C1 /* MapToy.app */;
@@ -147,6 +153,7 @@
 			packageReferences = (
 				D86FDE5029047696006522C1 /* XCRemoteSwiftPackageReference "swift-protobuf" */,
 				D86FDE5929057C30006522C1 /* XCRemoteSwiftPackageReference "SQLite" */,
+				D86FDE63290584C0006522C1 /* XCRemoteSwiftPackageReference "GzipSwift" */,
 			);
 			productRefGroup = D86FDE3F29047556006522C1 /* Products */;
 			projectDirPath = "";
@@ -181,6 +188,7 @@
 				D86FDE4429047556006522C1 /* SingleMVTView.swift in Sources */,
 				D86FDE4229047556006522C1 /* MapToyApp.swift in Sources */,
 				D86FDE54290476F8006522C1 /* vector_tile.pb.swift in Sources */,
+				D86FDE62290583A6006522C1 /* MBTilesView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -394,6 +402,14 @@
 				minimumVersion = 0.9.2;
 			};
 		};
+		D86FDE63290584C0006522C1 /* XCRemoteSwiftPackageReference "GzipSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/1024jp/GzipSwift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -406,6 +422,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = D86FDE5929057C30006522C1 /* XCRemoteSwiftPackageReference "SQLite" */;
 			productName = SQLite;
+		};
+		D86FDE64290584C0006522C1 /* Gzip */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D86FDE63290584C0006522C1 /* XCRemoteSwiftPackageReference "GzipSwift" */;
+			productName = Gzip;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Gzip
 
 /// `MVTFeature` represents a feature in a layer
 struct MVTFeature {
@@ -122,13 +123,26 @@ final class MVTParser {
     /// Load a tile from protobuf-encoded data at the given path
     /// Returns an array of `MVTLayer`, each of which will contain `MVTFeature` with fully-decoded drawing instructions
     func load(path: String) -> [MVTLayer]? {
-        
         guard let fileData = FileManager.default.contents(atPath: path) else {
             print("ERROR: FileManager failed to read the file")
             return nil
         }
         
-        guard let decodedTile = try? VectorTile_Tile(serializedData: fileData) else {
+        return load(from: fileData)
+    }
+    
+    /// Loads a tile from the provided protobuf-encoded data, optionally gzipped
+    func load(from data: Data) -> [MVTLayer]? {
+        
+        var dataToLoad = data
+        if data.isGzipped {
+            guard let unzipped = try? data.gunzipped() else {
+                return nil
+            }
+            dataToLoad = unzipped
+        }
+        
+        guard let decodedTile = try? VectorTile_Tile(serializedData: dataToLoad) else {
             print("ERROR: Unable to decode Protobuf-format data")
             return nil
         }
