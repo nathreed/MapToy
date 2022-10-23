@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		D86FDE4229047556006522C1 /* MapToyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86FDE4129047556006522C1 /* MapToyApp.swift */; };
-		D86FDE4429047556006522C1 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86FDE4329047556006522C1 /* ContentView.swift */; };
+		D86FDE4429047556006522C1 /* SingleMVTView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86FDE4329047556006522C1 /* SingleMVTView.swift */; };
 		D86FDE462904755A006522C1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D86FDE452904755A006522C1 /* Assets.xcassets */; };
 		D86FDE492904755A006522C1 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D86FDE482904755A006522C1 /* Preview Assets.xcassets */; };
 		D86FDE5229047696006522C1 /* SwiftProtobuf in Frameworks */ = {isa = PBXBuildFile; productRef = D86FDE5129047696006522C1 /* SwiftProtobuf */; };
@@ -16,18 +16,22 @@
 		D86FDE5629047769006522C1 /* MVTParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86FDE5529047769006522C1 /* MVTParser.swift */; };
 		D86FDE58290487A0006522C1 /* MapScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86FDE57290487A0006522C1 /* MapScene.swift */; };
 		D86FDE5B29057C30006522C1 /* SQLite in Frameworks */ = {isa = PBXBuildFile; productRef = D86FDE5A29057C30006522C1 /* SQLite */; };
+		D86FDE5D29057DD8006522C1 /* MBTilesLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86FDE5C29057DD8006522C1 /* MBTilesLoader.swift */; };
+		D86FDE60290582F1006522C1 /* FileChooserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86FDE5F290582F1006522C1 /* FileChooserView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		D86FDE3E29047556006522C1 /* MapToy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MapToy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D86FDE4129047556006522C1 /* MapToyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapToyApp.swift; sourceTree = "<group>"; };
-		D86FDE4329047556006522C1 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		D86FDE4329047556006522C1 /* SingleMVTView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleMVTView.swift; sourceTree = "<group>"; };
 		D86FDE452904755A006522C1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D86FDE482904755A006522C1 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		D86FDE4A2904755A006522C1 /* MapToy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MapToy.entitlements; sourceTree = "<group>"; };
 		D86FDE53290476F8006522C1 /* vector_tile.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = vector_tile.pb.swift; sourceTree = "<group>"; };
 		D86FDE5529047769006522C1 /* MVTParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MVTParser.swift; sourceTree = "<group>"; };
 		D86FDE57290487A0006522C1 /* MapScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapScene.swift; sourceTree = "<group>"; };
+		D86FDE5C29057DD8006522C1 /* MBTilesLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MBTilesLoader.swift; sourceTree = "<group>"; };
+		D86FDE5F290582F1006522C1 /* FileChooserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileChooserView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,14 +66,15 @@
 		D86FDE4029047556006522C1 /* MapToy */ = {
 			isa = PBXGroup;
 			children = (
+				D86FDE5E290582E4006522C1 /* Views */,
 				D86FDE53290476F8006522C1 /* vector_tile.pb.swift */,
 				D86FDE4129047556006522C1 /* MapToyApp.swift */,
-				D86FDE4329047556006522C1 /* ContentView.swift */,
 				D86FDE452904755A006522C1 /* Assets.xcassets */,
 				D86FDE4A2904755A006522C1 /* MapToy.entitlements */,
 				D86FDE472904755A006522C1 /* Preview Content */,
 				D86FDE5529047769006522C1 /* MVTParser.swift */,
 				D86FDE57290487A0006522C1 /* MapScene.swift */,
+				D86FDE5C29057DD8006522C1 /* MBTilesLoader.swift */,
 			);
 			path = MapToy;
 			sourceTree = "<group>";
@@ -80,6 +85,15 @@
 				D86FDE482904755A006522C1 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		D86FDE5E290582E4006522C1 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				D86FDE4329047556006522C1 /* SingleMVTView.swift */,
+				D86FDE5F290582F1006522C1 /* FileChooserView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -161,8 +175,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				D86FDE58290487A0006522C1 /* MapScene.swift in Sources */,
+				D86FDE5D29057DD8006522C1 /* MBTilesLoader.swift in Sources */,
+				D86FDE60290582F1006522C1 /* FileChooserView.swift in Sources */,
 				D86FDE5629047769006522C1 /* MVTParser.swift in Sources */,
-				D86FDE4429047556006522C1 /* ContentView.swift in Sources */,
+				D86FDE4429047556006522C1 /* SingleMVTView.swift in Sources */,
 				D86FDE4229047556006522C1 /* MapToyApp.swift in Sources */,
 				D86FDE54290476F8006522C1 /* vector_tile.pb.swift in Sources */,
 			);

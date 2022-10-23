@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  SingleMVTView.swift
 //  MapToy
 //
 //  Created by Nathan Reed on 10/22/22.
@@ -8,7 +8,7 @@
 import SwiftUI
 import SpriteKit
 
-final class ContentViewModel: ObservableObject {
+final class SingleMVTViewModel: ObservableObject {
     
     @Published var fileName: String?
     @Published var fileURL: URL? {
@@ -26,24 +26,13 @@ final class ContentViewModel: ObservableObject {
     @Published var layers: [MVTLayer]?
 }
 
-struct ContentView: View {
+struct SingleMVTView: View {
     
-    @StateObject var viewModel = ContentViewModel()
+    @StateObject var viewModel = SingleMVTViewModel()
     
     var body: some View {
         VStack {
-            HStack {
-                Text(viewModel.fileName ?? "No file selected")
-                Button("Choose File") {
-                    let panel = NSOpenPanel()
-                    panel.allowsMultipleSelection = false
-                    panel.canChooseDirectories = false
-                    if panel.runModal() == .OK {
-                        self.viewModel.fileURL = panel.url
-                    }
-                }
-            }
-            .padding()
+            FileChooserView(fileName: $viewModel.fileName, fileURL: $viewModel.fileURL)
             
             if let layers = viewModel.layers {
                 SpriteView(scene: MapScene(size: CGSize(width: 200, height: 200), layers: layers))
@@ -56,8 +45,8 @@ struct ContentView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct SingleMVTView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        SingleMVTView()
     }
 }
