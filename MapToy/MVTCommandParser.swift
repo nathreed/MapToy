@@ -23,10 +23,19 @@ struct MVTFeature {
         case closePath
     }
     
-    private let featureInfo: VectorTile_Tile.Feature
+    enum AttributeValue {
+        case string(String)
+        case decimal(Double)
+        case integer(Int)
+        case boolean(Bool)
+    }
     
-    init(featureInfo: VectorTile_Tile.Feature) {
+    private let featureInfo: VectorTile_Tile.Feature
+    let attributes: [String: AttributeValue]
+    
+    init(featureInfo: VectorTile_Tile.Feature, attributes: [String: AttributeValue]) {
         self.featureInfo = featureInfo
+        self.attributes = attributes
     }
     
     var drawingCommands: [DrawingCommand] {
@@ -129,8 +138,46 @@ final class MVTCommandParser {
         
         return toReturn.map { rawLayer in
             return MVTLayer(name: rawLayer.name, features: rawLayer.features.map({ rawFeature in
-                return MVTFeature(featureInfo: rawFeature)
+                return MVTFeature(featureInfo: rawFeature, attributes: parseAttributes(feature: rawFeature, layer: rawLayer))
             }))
         }
+    }
+    
+    private func parseAttributes(feature: VectorTile_Tile.Feature, layer: VectorTile_Tile.Layer) -> [String: MVTFeature.AttributeValue] {
+        var attributes = [String: MVTFeature.AttributeValue]()
+        for index in stride(from: 0, to: feature.tags.count, by: 2) {
+            let keyTagIndex = index
+            let valueTagIndex = index+1
+            
+            let keyIndex = Int(feature.tags[keyTagIndex])
+            let valueIndex = Int(feature.tags[valueTagIndex])
+            
+            let key = layer.keys[keyIndex]
+            let rawValue = layer.values[valueIndex]
+            
+            let value: MVTFeature.AttributeValue
+            if rawValue.hasIntValue {
+                value = .integer(Int(rawValue.intValue))
+            } else if rawValue.hasSintValue {
+                value = .integer(Int(rawValue.sintValue))
+            } else if rawValue.hasUintValue {
+                value = .integer(Int(rawValue.uintValue))
+            } else if rawValue.hasStringValue {
+                value = .string(rawValue.stringValue)
+            } else if rawValue.hasBoolValue {
+                value = .boolean(rawValue.boolValue)
+            } else if rawValue.hasFloatValue {
+                value = .decimal(Double(rawValue.floatValue))
+            } else if rawValue.hasDoubleValue {
+                value = .decimal(rawValue.doubleValue)
+            } else {
+                // Should not happen
+                value = .string("ERROR UNKNOWN")
+            }
+            
+            attributes[key] = value
+        }
+        
+        return attributes
     }
 }
