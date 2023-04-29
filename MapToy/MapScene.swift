@@ -74,42 +74,59 @@ final class MapScene: SKScene {
     }
     
     private func handlePolygonFeature(commands: [MVTFeature.DrawingCommand]) {
+        print("drawing polygon")
         // Command sequence will be an exterior ring and 0 or more interior rings
         // For now interior rings are unsupported
         var cursorX = 0
         var cursorY = 0
-        var currentExteriorRingPath: CGMutablePath?
+        var currentPolygonPath: CGMutablePath?
+        var currentPolygonMVTVertices: [(Int, Int)]?
         for command in commands {
             switch command {
             case .moveTo(let dX, let dY):
-                if currentExteriorRingPath == nil {
-                    currentExteriorRingPath = CGMutablePath()
-                    currentExteriorRingPath!.move(to: spriteKitCoord(mvtCoordX: cursorX + dX, mvtCoordY: cursorY + dY))
-                    cursorX += dX
-                    cursorY += dY
-                } else {
-                    print("ERROR: polygon feature has internal ring")
-                    currentExteriorRingPath!.closeSubpath()
-                    addPolygon(path: currentExteriorRingPath!)
-                    return // this is an indicator of an interior ring which is not supported
+                if currentPolygonPath != nil {
+                    print("ERROR/RECOVERABLE: moveTo command while a polygon ongoing. Closing polygon and assuming start of new one, this may give incorrect results!")
+                    currentPolygonPath!.closeSubpath()
+                    addPolygon(path: currentPolygonPath!)
                 }
-            case .lineTo(let dX, let dY):
-                if currentExteriorRingPath == nil {
-                    // This is incorrect but we should do something anyway
-                    currentExteriorRingPath = CGMutablePath()
-                    currentExteriorRingPath!.move(to: spriteKitCoord(mvtCoordX: cursorX, mvtCoordY: cursorY))
-                }
-                currentExteriorRingPath!.addLine(to: spriteKitCoord(mvtCoordX: cursorX + dX, mvtCoordY: cursorY + dY))
                 
+                
+                currentPolygonPath = CGMutablePath()
+                currentPolygonMVTVertices = [(Int, Int)]()
+                currentPolygonPath!.move(to: spriteKitCoord(mvtCoordX: cursorX + dX, mvtCoordY: cursorY + dY))
+                currentPolygonMVTVertices?.append((cursorX + dX, cursorY + dY))
+                cursorX += dX
+                cursorY += dY
+                
+            case .lineTo(let dX, let dY):
+                if currentPolygonPath == nil {
+                    // This is incorrect but we should do something anyway
+                    print("ERROR/RECOVERABLE: Incorrect polygon")
+                    currentPolygonPath = CGMutablePath()
+                    currentPolygonPath!.move(to: spriteKitCoord(mvtCoordX: cursorX, mvtCoordY: cursorY))
+                    currentPolygonMVTVertices!.append((cursorX, cursorY))
+                }
+                currentPolygonPath!.addLine(to: spriteKitCoord(mvtCoordX: cursorX + dX, mvtCoordY: cursorY + dY))
+                currentPolygonMVTVertices!.append((cursorX + dX, cursorY + dY))
                 // update cursor
                 cursorX += dX
                 cursorY += dY
             case .closePath:
-                guard currentExteriorRingPath != nil else { return }
-                currentExteriorRingPath!.closeSubpath()
-                addPolygon(path: currentExteriorRingPath!)
-                return // as soon as we see one closePath we are done with this feature
-                // this completely ignores any interior rings, which are more complex and will be handled later
+                guard currentPolygonPath != nil else { return }
+                // Make sure this is an exterior ring polygon (positive area per surveyor's formula)
+                if surveyorsFormulaArea(mvtCoordVertices: currentPolygonMVTVertices!) > 0 {
+                    // Positive area, exterior ring polygon
+                    currentPolygonPath!.closeSubpath()
+                    addPolygon(path: currentPolygonPath!)
+                    currentPolygonPath = nil
+                    currentPolygonMVTVertices = nil
+                } else {
+                    // Negative area, interior ring polygon
+                    // Need to reset the polygon but don't return since we need to keep looking for more polygons in this feature
+                    print("WARNING: interior ring polygon detected, ignoring!")
+                    currentPolygonPath = nil
+                    currentPolygonMVTVertices = nil
+                }
             }
         }
     }
@@ -121,7 +138,9 @@ final class MapScene: SKScene {
         // because of the way wikipedia defines the formula where vertex 0 = vertex n, we need a special subscript to make the loop code not ugly
         // also this lets us iterate from 1 to n to more closely match the "mathy" formula on wikipedia
         func xSub(_ i: Int) -> Int {
-            if i == 0 {
+            // NOTE: not sure if this is completely accurate, I sort of hacked it until it worked
+            // Might be worth re-evaluating this code against the wikipedia version
+            if i == 0 || i == mvtCoordVertices.count + 1 {
                 return mvtCoordVertices[mvtCoordVertices.count - 1].0
             } else {
                 return mvtCoordVertices[i-1].0
