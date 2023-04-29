@@ -9,22 +9,22 @@ import Foundation
 import Gzip
 
 /// `MVTFeature` represents a feature in a layer
-struct MVTFeature {
+struct MVTFeature: Hashable {
     
-    enum FeatureType {
+    enum FeatureType: Hashable {
         case point
         case lineString
         case polygon
         case unknown
     }
     
-    enum DrawingCommand {
+    enum DrawingCommand: Hashable {
         case moveTo(dX: Int, dY: Int)
         case lineTo(dX: Int, dY: Int)
         case closePath
     }
     
-    enum AttributeValue {
+    enum AttributeValue: Hashable {
         case string(String)
         case decimal(Double)
         case integer(Int)
@@ -111,9 +111,13 @@ struct MVTFeature {
 }
 
 /// `MVTLayer` represents a layer containing features
-struct MVTLayer {
+struct MVTLayer: Hashable, Identifiable {
     let name: String
     let features: [MVTFeature]
+    
+    var id: String {
+        return "\(name)_\(features.count)features"
+    }
 }
 
 /// `MVTParser` implements the Mapbox Vector Tiles specification v2.1

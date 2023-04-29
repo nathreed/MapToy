@@ -36,6 +36,7 @@ final class MBTilesLoader {
         
         let tilesTable = Table("tiles")
         
+        // Flip Y coordinate for MBTiles
         // 2^z - 1 - y
         let mbTilesY = (1 << z) - 1 - y
         
